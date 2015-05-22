@@ -1,0 +1,4 @@
+[package]
+name = "rustic-tweets"
+version = "0.1.0"
+authors = ["Spenser Reinhardt <>"]
