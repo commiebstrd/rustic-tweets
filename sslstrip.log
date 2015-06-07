@@ -1,0 +1,9 @@
+2015-05-27 13:30:16,148 Host resolution error: [Failure instance: Traceback: <type 'exceptions.TypeError'>: cannot concatenate 'str' and 'NoneType' objects
+/usr/lib/python2.7/site-packages/twisted/web/http.py:823:requestReceived
+/usr/lib/python2.7/site-packages/sslstrip/ClientRequest.py:132:process
+/usr/lib/python2.7/site-packages/twisted/internet/defer.py:317:addCallback
+/usr/lib/python2.7/site-packages/twisted/internet/defer.py:306:addCallbacks
+--- <exception caught here> ---
+/usr/lib/python2.7/site-packages/twisted/internet/defer.py:588:_runCallbacks
+/usr/lib/python2.7/site-packages/sslstrip/ClientRequest.py:94:handleHostResolvedSuccess
+]

@@ -27,7 +27,8 @@ pub fn get_token<'a>() -> (Token<'a>, Token<'a>) {
 	}
 	let consumer_token = Token::new(key_s.consumer_key, key_s.consumer_secret);
 
-	if key_s.access_key.len() == 0 || key_s.access_secret.len() == 0 {
+//	if key_s.access_key.len() == 0 || key_s.access_secret.len() == 0 {
+		println!("created keys and consumer_token");
 		let request = twitter::get_request_token(&consumer_token);
 		println!("Open the following url:");
 		println!("\t{}", twitter::get_authorize_url(&request));
@@ -35,7 +36,7 @@ pub fn get_token<'a>() -> (Token<'a>, Token<'a>) {
 		let access = twitter::get_access_token(&consumer_token, &request, &pin);
 		key_s.access_key = access.key.to_string();
 		key_s.access_secret = access.secret.to_string();
-	}
+//	}
 	let access_token = Token::new(key_s.access_key, key_s.access_secret);
 
 	(consumer_token, access_token)
