@@ -1,45 +1,48 @@
 use std::io;
 use std::io::prelude::*;
-use oauth::Token;
-use twitter;
+use tweetust;
+use tweetust::conn::oath_authenticator::OAuthAuthenticator as oath;
 
 #[derive(Debug)]
-pub struct Keys {
-	pub consumer_key: String,
-	pub consumer_secret: String,
-	pub access_key: String,
-	pub access_secret: String
+struct Keys {
+	pub ck: String,
+	pub cs: String,
+	pub atk: String,
+	pub ats: String
 }
 
-
-pub fn get_token<'a>() -> (Token<'a>, Token<'a>) {
-
-	let mut key_s: Keys = Keys {
-		consumer_key: " lVvrRhV0v1idwqhIyzQ695lsf".to_string(),
-		consumer_secret: "KAo3YtKXJxVYRzAVZOVdMfjn6rnVW6GQDhLaj1WU9OvouuyBQkYXprmpsCvIhJEWE90PLfXal91eeRN0Nr5WGhf8CrtXQha".to_string(),
-		access_key: "288484228-MXvOlFczyHTSUTdd0OjjkbT8LUErYC7Jnr1F4zbr".to_string(),
-		access_secret: "Laj1WU9OvouuyBQkYXprmpsCvIhJEWE90PLfXal91eeRN".to_string()
-	};
-
-	if key_s.consumer_key.len() == 0 || key_s.consumer_secret.len() == 0 {
-		key_s.consumer_key = console_input("Input your consumer key:");
-		key_s.consumer_secret = console_input("Input your consumer secret:");
+impl<'s> Default for Keys<'s> ()
+	fn default<'f>() -> Keys<'f> {
+		Keys {
+			ck: " lVvrRhV0v1idwqhIyzQ695lsf".to_string(),
+			cs: "KAo3YtKXJxVYRzAVZOVdMfjn6rnVW6GQDhLaj1WU9OvouuyBQkYXprmpsCvIhJEWE90PLfXal91eeRN0Nr5WGhf8CrtXQha".to_string(),
+			atk: "288484228-MXvOlFczyHTSUTdd0OjjkbT8LUErYC7Jnr1F4zbr".to_string(),
+			ats: "Laj1WU9OvouuyBQkYXprmpsCvIhJEWE90PLfXal91eeRN".to_string()
+		}
 	}
-	let consumer_token = Token::new(key_s.consumer_key, key_s.consumer_secret);
+}
 
-	if key_s.access_key.len() == 0 || key_s.access_secret.len() == 0 {
-		let request = twitter::get_request_token(&consumer_token);
-		println!("Open the following url:");
-		println!("\t{}", twitter::get_authorize_url(&request));
-		let pin = console_input("Input pin:");
-		let access = twitter::get_access_token(&consumer_token, &request, &pin);
-		key_s.access_key = access.key.to_string();
-		key_s.access_secret = access.secret.to_string();
+pub fn get_token<'a>() ->  {
+
+	let key_s: Keys = Keys::default(); 
+
+	if key_s.ck.len() == 0 || key_s.cs.len() == 0 {
+		key_s.ck = console_input("Input your consumer key:");
+		key_s.cs = console_input("Input your consumer secret:");
 	}
-	let access_token = Token::new(key_s.access_key, key_s.access_secret);
+	if key_s.atk.len() == 0 || key_s.atk.len() == 0 {
+		key_s.atk = console_input("Input your access token key:");
+		key_s.ats = console_input("Input your access token secret:");
+	}
 
-	(consumer_token, access_token)
+	let request = oath::new(
+		&key_s.ck, 
+		&key_s.cs,
+		&key_s.atk,
+		&key_s.ats
+	);
 
+	request
 }
 
 
